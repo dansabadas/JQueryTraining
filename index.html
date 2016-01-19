@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+  <script src="JQuery.js"></script>
+  <script src="my_tabs.js"></script>
+  <input id="age1" value="40" />
+  <ul id="ul1" class="ul1c">
+    <li id="li1" class="lic lic1 div1"><a>doberman</a><input id="age" value="40" /></li>
+    <li id="li2" class="lic lic2 div2"><a>beagles</a></li>
+    <li id="li3" class="lic lic3 div3"><a>boxer</a></li>
+  </ul>
+  <div id="div1">div1</div>
+  <div id="div2">div2</div>
+  <div id="div3">div3</div>
+  <script>
+    //Animal = function () {
+    //  this.offspring = [];
+    //}
+    //Dog = function () { }
+    //Dog.prototype = new Animal();
+    //var dog1 = new Dog, dog2 = new Dog(), pup = new Dog();
+    //dog1.offspring.push(pup);
+    //console.log(dog2.offspring);
+
+    Animal = function (name) { this.name = name };
+    Animal.prototype.eats = function () { return this.name + " is eating"; }
+
+    Chordate = function (name) { Animal.call(this, name); }
+    Chordate.prototype = new Animal();
+    Chordate.prototype.has_spine = true;
+
+    Mammal = function (name) { Chordate.call(this, name); }
+    Mammal.prototype = new Chordate();
+    Mammal.prototype.has_hair = true;
+    m = new Mammal("dog");
+    //console.log(m);
+
+    NEW = function (constructor, args) {
+      var o = {};
+      o.__proto__ = constructor.prototype;
+      constructor.apply(o, args);
+
+      return o;
+    };
+
+    INSTANCEOF = function (obj, constructor) {
+      if (obj.__proto__ === constructor.prototype) {
+        return true;
+      } else if (obj.__proto__) {
+        return INSTANCEOF(obj.__proto__, constructor);
+      } else {
+        return false;
+      }
+    };
+
+    console.log(INSTANCEOF(m, Animal));
+    //var Person = function (name) {
+    //  this.name = name;
+    //}
+    //Person.prototype.speak = function () { console.log('hell!!o' + this.name); }
+    //var person = NEW(Person, ["meow"]); //var person = new Person('name');
+    //person.speak();
+    var jq = new $('li');
+    console.log(jq);
+    var $as = new $('a');
+    console.log($as);
+    console.log($as.html());
+    //$as.html('my doberman');
+    var $val = new $('#age');
+    console.log($val.val());
+    $val.val(2500);
+    var $ul = $('ul');
+    console.log($ul);
+    //$ul.text("<input/>");
+    //$('li').text("<input/>");
+    console.log($('ul').text())
+    console.log('next()=', $('#li1').next());
+    console.log('next().prev()=', $('#li1').next().prev());
+    console.log('li1.parent()=', $('li').parent());
+    $('ul').find('li').text('Hello!');
+    $('ul').attr('class', 'ul1c ul2c');
+    console.log('attr', $('ul').attr('class'));
+    $('input').css('color', 'green').attr('data-foo', 'bar');
+    console.log('css->', $('input').css('color'));
+    console.log($('ul').width());
+    var handler = function (ev) {
+      console.log(ev.type); //click, keypress etc
+      console.log(ev.target); //element event was invoked on => deepest element was the event targeted on
+      console.log(ev.currentTarget);  //current element in propagation => current in bubbling up process
+      console.log(ev.timeStamp);
+      console.log(ev.bubbles);
+      console.log(ev.cancelable);
+      console.log(ev.eventPhase);
+    }
+    $('ul').bind('click', handler);
+    $('#li3').bind('click', function () { $('ul').unbind('click', handler); });
+    //document.addEventListener('click', function () { }, false);
+    $('ul').tabs();
+    /*var obj = { __proto__: { __proto__: {name: "bar"} } };
+    console.log(obj.name)
+    //obj.__proto__.__proto__ = obj;  // throws TypeError: can't set prototype: it would cause a prototype chain cycle
+    $.each([1, 2, 3], function (i, v) { console.log(i, v); });
+
+    obj.name1 = "dan";
+    obj.speak = function () { console.log(this.name1) };
+
+    obj.speak();
+
+    var dan2 = { name1: "dan2" };
+    $.proxy(obj.speak, dan2)();
+
+    var myProx = $.proxy(obj.speak, { name1: "dan3" });
+    myProx();*/
+  </script>
+</body>
+</html>
